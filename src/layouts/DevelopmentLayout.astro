@@ -1,0 +1,94 @@
+---
+import { YouTube } from 'astro-embed';
+
+interface Props {
+    frontmatter: {
+	    title: string;
+    }
+}
+
+const { frontmatter: {title} } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="m-auto container">
+		<h1>Development Guide</h1>
+		<p class="w-full " style="text-align: center;">You can find video introduction on how to setup your environment on YouTube</p>
+		<YouTube id="iB8NEnG7SUw" class:list={"rounded-2xl my-8 m-auto"} />
+        <article class="article m-auto container">
+		    <slot />
+        </article>
+		<h2>Task Programming Tutorial Stream</h2>
+
+		<YouTube id="uROEqwyzn3o" class:list={"rounded-2xl my-8 m-auto"} />
+
+		<h2>Old (Post Stream) Tutorial VOD</h2>
+		<YouTube id="giBjHDZ7HvY" class:list={"rounded-2xl my-8 m-auto"} />
+	</body>
+</html>
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: #13151a;
+		background-size: 224px;
+	}
+    h1 {
+        @apply text-3xl font-bold m-auto pb-4 pt-6 text-center;
+    }
+    h2 {
+        @apply text-2xl font-bold m-auto pb-4 pt-6;
+    }
+    h3 {
+        @apply text-xl font-bold m-auto pb-4 pt-6;
+    }
+    p {
+        @apply leading-normal px-4
+    }
+	ol {
+		@apply list-decimal px-8
+	}
+    .article table {
+        @apply table table-zebra my-8;
+    }
+    a {
+        @apply link link-primary;
+    }
+    img {
+        @apply py-8 px-4;
+    }
+    li {
+        @apply py-3;
+    }
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+            @apply bg-base-300 p-2 rounded-md;
+	}
+</style>

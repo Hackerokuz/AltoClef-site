@@ -1,0 +1,1 @@
+# A welcome page for minecraft AltoClef bot. 

@@ -1,0 +1,91 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import { getCollection, getEntry } from "astro:content";
+
+const allFAQs = await getCollection("FAQ");
+---
+
+<Layout title="FAQ">
+	<main class="container">
+		<h1>Frequently Asked Questions</h1>
+
+		<div class="flex flex-col gap-4 my-8">
+			{
+				allFAQs.map(async (faq) => {
+					const { Content, headings, remarkPluginFrontmatter } =
+						await faq.render();
+
+					return (
+						<div
+							tabindex="0"
+							class="collapse collapse-plus bg-base-200"
+						>
+							{/* <input type="radio" name="faq" /> */}
+							<div class="collapse-title text-xl font-medium">
+								{faq.data.title}
+							</div>
+							<div class="collapse-content">
+								<div class="p-4">
+									<Content
+										headings={headings}
+										remarkPluginFrontmatter={
+											remarkPluginFrontmatter
+										}
+									/>
+								</div>
+							</div>
+						</div>
+					);
+				})
+			}
+		</div>
+
+		<p>
+			For all versions available please refer to <a
+				href="https://squ1d.dev/altoclef-versions"
+				>https://squ1d.dev/altoclef-versions</a
+			>.<br />
+			<strong
+				>If it says (Requires baritone) you will need to stick the
+				custom baritone with it in your mods folder if it's not provided
+				to you</strong
+			>
+		</p>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		/* max-width: calc(100% - 2rem); */
+		font-size: 20px;
+		line-height: 1.6;
+	}
+	h1 {
+		font-size: 3rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-bottom: 1em;
+	}
+	a {
+		@apply link link-primary;
+	}
+	:global(.collapse-content h1) {
+		@apply text-2xl font-bold p-4 m-auto;
+	}
+	:global(.collapse-content a) {
+		@apply link link-primary;
+	}
+	:global(.collapse-content hr) {
+		@apply my-4;
+	}
+	:global(.collapse-content code) {
+		@apply bg-base-100 p-2 rounded-md;
+	}
+	:global(.collapse-content ul) {
+		@apply list-disc pl-8;
+	}
+</style>
