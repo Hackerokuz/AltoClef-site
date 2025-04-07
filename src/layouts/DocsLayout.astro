@@ -1,9 +1,11 @@
 ---
 interface Props {
-	title: string;
+    frontmatter: {
+	    title: string;
+    }
 }
 
-const { title } = Astro.props;
+const { frontmatter: {title} } = Astro.props;
 ---
 
 <!doctype html>
@@ -17,7 +19,16 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<div class="grid grid-cols-12 h-[95vh] overflow-auto items-start">
+			<article class="article m-auto px-4 container col-span-10">
+				<h1>{title}</h1>
+				<slot />
+			</article>
+			<nav class="flex flex-col gap-2 col-span-2 sticky top-0 ml-4">
+				<a href="/AltoClef-site/docs" class="link hover:text-primary">Home</a>
+				<a href="/AltoClef-site/docs/APIThingsToKnow" class="link text-primary pointer-events-none cursor-not-allowed">API Things To Know</a>
+			</nav>
+		</div>
 	</body>
 </html>
 <style is:global>
@@ -50,7 +61,15 @@ const { title } = Astro.props;
 		background: #13151a;
 		background-size: 224px;
 	}
+	body {
+		padding: 0;
+		margin: 0;
+	}
+	a {
+		@apply link hover:text-primary;
+	}
 	code {
+		@apply mb-4 bg-[#656c7633] p-2 rounded-lg;
 		font-family:
 			Menlo,
 			Monaco,
@@ -60,5 +79,33 @@ const { title } = Astro.props;
 			Bitstream Vera Sans Mono,
 			Courier New,
 			monospace;
+	}
+	h1 {
+		@apply mb-4 text-4xl font-semibold;
+	}
+	h2 {
+		@apply mb-4 text-3xl font-semibold;
+	}
+	h3 {
+		@apply mb-4 text-2xl font-semibold;
+	}
+	p {
+		@apply mb-4;
+	}
+	pre {
+		@apply mb-4 bg-[#151b23] px-3 py-4 rounded-box;
+		line-height: 1.45;
+	}
+	pre code {
+		@apply mb-0 bg-transparent p-0 rounded-lg;
+	}
+	ol {
+		@apply list-decimal ml-12 mb-4;
+	}
+	li {
+		@apply mb-4;
+	}
+	ul {
+		@apply list-disc ml-8 mb-4;
 	}
 </style>

@@ -1,0 +1,353 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
+import { YouTube } from "astro-embed";
+import FullTreeApproach from "../../content/docs/FullTreeApproach.jpg";
+import SubtaskTreeApproach from "../../content/docs/SubtaskTreeApproach.jpg";
+import CollectDiamondsTreeExample from "../../content/docs/CollectDiamondsTreeExample.jpg";
+import BotSystemExample from "../../content/docs/BotSystemExample.jpg";
+---
+
+<Layout title="AltoClef Documentation">
+  <main class="text-black/80 dark:text-white">
+    <h1><span class="text-gradient">AltoClef</span> Documentation</h1>
+    <h2>Big Picture</h2>
+    <p>
+      Probably best to briefly skim this through before designing any tasks.
+    </p>
+    <h3>What is AltoClef, really?</h3>
+    <p>AltoClef is a Minecraft Bot system that can accomplish tasks.</p>
+    <p>
+      To help accomplish these tasks, a bunch of utilities are included to make
+      your life easier.
+    </p>
+    <h3>How does the Bot Accomplish a Task?</h3>
+    <p>
+      Imagine you want to go to the store and get some milk. Let's start by
+      specifying a series of specific instructions that will accomplish this.
+    </p>
+    <h3>"Get Milk" Task</h3>
+    <ol>
+      <li>Take the bus to the store</li>
+      <li>Enter the store</li>
+      <li>Find the milk</li>
+      <li>Buy the milk</li>
+      <li>Go home with the milk</li>
+    </ol>
+    <p>
+      Now suppose these instructions are handed to a contrarian who will follow
+      these instructions to a tee, no matter what. This contrarian will never
+      skip instructions and will keep the same order. Now suppose the contrarian
+      finds themself inside the store already, and you tell them to "buy you
+      some milk". In order to "buy milk", the contrarian will get on a bus to
+      the store, probably the same store they started in. Without skipping a
+      step, the contrarian will waste time and money.
+    </p>
+    <p>
+      So let's imagine instead that we add some conditions to when each step
+      should occur.
+    </p>
+    <h3>Improved "Get Milk" Task</h3>
+    <ul>
+      <li>
+        <em>Did we pay for milk and have milk in our hands?</em>
+        <ul>
+          <li>
+            <strong>Yes:</strong> Go to: home
+          </li>
+          <li>
+            <strong>No:</strong>
+            <em>Are we in the store?</em>
+            <ul>
+              <li>
+                <strong>Yes:</strong>
+                <em>Did we pay for the milk?</em>
+                <ul>
+                  <li>
+                    <strong>Yes:</strong> Grab the milk we paid for
+                  </li>
+                  <li>
+                    <strong>No:</strong> Find some milk and buy it
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>No:</strong> Go to: the store
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      Now, instead of a series of instructions we have a dichotomous tree/"20
+      questions game" that can tell a person what to do at any given time.
+    </p>
+    <p>
+      You'll notice we're missing a few details, like using the bus. Thankfully,
+      we can add this in using <a
+        href="https://thevaluable.dev/abstraction-type-software-example/"
+        rel="nofollow">abstraction</a>
+    </p>
+    <h3>"Go to X" task</h3>
+    <ul>
+      <li>
+        <em>Are we riding a bus?</em>
+        <ul>
+          <li>
+            <strong>Yes:</strong> Is the bus stopped at the closest bus-stop to <code
+              >X</code
+            >?
+            <ul>
+              <li>
+                <strong>Yes:</strong> Get off the bus
+              </li>
+              <li>
+                <strong>No:</strong> Keep riding the bus
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>No:</strong> Are we within walking distance to <code>X</code
+            >?
+            <ul>
+              <li>
+                <strong>Yes:</strong> Walk to <code>X</code>
+              </li>
+              <li>
+                <strong>No:</strong> Board the nearest bus
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      Now that "Go To <code>X</code>" is defined, it becomes a <strong
+        >reusable task</strong
+      > that can be used to go to almost any place (assuming it's reachable by a
+      bus).
+    </p>
+    <p>
+      There is actually a problem with this task, which is "What happens if the
+      closest bus stop to <code>X</code> is NOT within walking distance?". Detecting
+      these kinds of problems ahead of time is quite tricky, but with some practice
+      you'll get the hang of it.
+    </p>
+    <p>Now let's move on to an example in Minecraft.</p>
+    <h3>How the Bot Gets a Stone Pickaxe and Diamonds</h3>
+    <p>
+      <em
+        >For a brief video explanation, Check <a
+          href="https://youtu.be/q5OmcinQ2ck?t=387"
+          rel="nofollow">this explanation, starting at 6:27</a
+        >.</em>
+    </p>
+    <img
+      src={FullTreeApproach.src}
+      height={FullTreeApproach.height}
+      width={FullTreeApproach.width}
+      alt=""
+    />
+    <p>
+      Each item icon is a resource, and the "tree branches" extending downward
+      are connected to SUB resources needed to get the resource higher in the
+      tree. If one of these SUB resources is already obtained, the bot will
+      ignore that part of the tree and move on to un-obtained SUB resources. If
+      all SUB resources are obtained, they are combined to obtain the parent
+      resource. The order of which SUB resource is picked is arbitrary/can be
+      ignored. With this in place, the bot will not repeat tasks and will SKIP
+      collecting resources already in its inventory.
+    </p>
+    <p>
+      This tree idea can be improved just a bit though, since we can see a lot
+      of repetition here. An example of this repetition is found in planks,
+      sticks, and the crafting table which repeat multiple times. If you’re a
+      programmer, you probably know where this is going.
+    </p>
+    <img
+      src={SubtaskTreeApproach.src}
+      height={SubtaskTreeApproach.height}
+      width={SubtaskTreeApproach.width}
+      alt=""
+    />
+    <p>
+      (Some diagram explanations: On the left side of the cobblestone is a
+      wooden pick, indicating that a wood pickaxe is needed before mining the
+      stone. For each pickaxe, a crafting table represents the need for a
+      crafting table placed down somewhere nearby.)
+    </p>
+    <p>
+      This diagram represents the same tree as above but with a few
+      improvements. Firstly, resources only need to be defined once and they can
+      then be re-used. This re-use is akin to creating functions in a computer
+      program, which is an easy way to avoid repeating work.
+    </p>
+    <p>
+      Thanks to this efficiency, we can extend this task to collect diamonds.
+      Here’s what a diamond collection tree looks like:
+    </p>
+    <img
+      src={CollectDiamondsTreeExample.src}
+      height={CollectDiamondsTreeExample.height}
+      width={CollectDiamondsTreeExample.width}
+      alt=""
+    />
+    <p>
+      (Here we also have a small furnace icon near the iron ingot resource,
+      indicating that iron ore needs to be smelted in a nearby furnace to get
+      the ingot)
+    </p>
+    <p>
+      Notice that we only needed to add three trees here to get to diamonds.
+      However, if we stuck with the “full tree” approach we would need to create
+      a massive single tree.
+    </p>
+    <h3>How the Bot Survives</h3>
+    <p>
+      If we want to get diamonds, the above tree would work on Peaceful
+      difficulty but fail everywhere else. This failure would be caused by
+      hostile mobs and the environment killing the bot repeatedly.
+    </p>
+    <p>
+      To avoid this failure, the bot has multiple "task trees" running at once
+      (hereby dubbed "task chains"), executing the task given by the the "task
+      chain" with the highest priority. By default, the highest priority goes to
+      the User task chain, that runs whatever command you feed into AltoClef
+      (ex. <code>@get diamond</code>). However, whenever a hostile mob gets too
+      close or the bot gets hungry, the "Mob Defense Chain" and "Food Chain"
+      increase in priority, and thus kick in.
+    </p>
+    <img
+      src={BotSystemExample.src}
+      height={BotSystemExample.height}
+      width={BotSystemExample.width}
+      alt=""
+    />
+    <p>
+      With this system the bot can juggle survival and getting stuff done. Not
+      the best solution, but it works.
+    </p>
+    <h3>"Things Can Go Wrong" Mentality</h3>
+    <p>
+      It's important to remember that bots are pretty stupid. Like computers,
+      they will do exactly what you TELL them to do, not what you WANT them to
+      do.
+    </p>
+    <p>
+      Let's say we want to program a bot to build a bridge. Let's plan out how
+      this may look like:
+    </p>
+    <pre><code>if the bot doesn't have building materials:
+    Collect cobblestone
+else:
+    for each part of the bridge:
+        if it's not built yet:
+            Place a block of cobblestone there.
+    Each part of the bridge has been built, we're done!</code></pre>
+    <p>
+      Try to think about where the bot may fail if it tries running this. What
+      can go wrong?
+    </p>
+    <p>
+      Here's one answer: The bot will get stuck repeatedly breaking and
+      rebuilding the bridge. While building, if you tell the bot to <code
+        >Collect cobblestone</code
+      >, nothing stops it from simply breaking apart the bridge it just built to
+      get these materials.
+    </p>
+    <p>
+      And even if the bot has infinite building materials, baritone's
+      pathfinding can get stuck breaking the bridge to walk past it, only to
+      rebuild it immediately afterwards.
+    </p>
+    <p>
+      In this situation, there's a utility system that can receive a <a
+        href="https://www.javainterviewpoint.com/java-predicate-example/"
+        rel="nofollow">Predicate</a
+      > that tells Baritone to NOT mine/break a block. There are many other systems
+      like this in AltoClef that help fix these kinds of issues.
+    </p>
+    <p>
+      But the point here is to be diligent when designing tasks. Scrutinize your
+      tasks while writing them to see what may go wrong, and I'm sure you'll
+      find something.
+    </p>
+    <p>Overall, most issues boil down to one of two things:</p>
+    <ol>
+      <li>
+        Baritone breaks/places a block somewhere where it shouldn't. Use <code
+          >AltoClef.getBehaviour().avoidBlockBreaking(blockPos -&gt; protect?)</code
+        >
+      </li>
+      <li>
+        Whenever the bot is told to ALWAYS go to the closest target, it's very
+        likely the bot may get stuck alternating between two target. In that
+        case, either commit to a target whenever you find one, or use <code
+          >DoToClosestBlockTask</code
+        >/<code>DoToClosestEntityTask</code>
+      </li>
+      <li>
+        The block you're traveling to may be unreachable (surrounded in bedrock,
+        floating in the air and you don't have build materials). In that case
+        use <code>AltoClef.getBlockTracker().unreachable(blockpos)</code>
+      </li>
+    </ol>
+    <p>
+      On the other end, even if you fix the problem you also gotta consider if
+      your fix is too restrictive. Particularly with preventing Baritone from
+      mining or placing. The bot may get stuck because it can't dig itself out
+      of a room or pillar or whatever, so try to only restrict breaking/placing
+      if you need to.
+    </p>
+    <p>
+      Not every single one of these issues can be solved or even discovered, but
+      a good 99.9% of them can be found by testing your task a few times and
+      trying to break the bot (give it less/more items, put it in specific
+      situations that might break it, etc.)
+    </p>
+  </main>
+  <nav class="fixed top-8 right-8 flex flex-col gap-2">
+    <a href="/AltoClef-site/docs" class="link text-primary pointer-events-none cursor-not-allowed">Home</a>
+    <a href="/AltoClef-site/docs/APIThingsToKnow" class="link hover:text-primary">API Things To Know</a>
+  </nav>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  h1 {
+    @apply mb-4 text-4xl font-semibold;
+  }
+  h2 {
+    @apply mb-4 text-3xl font-semibold;
+  }
+  h3 {
+    @apply mb-4 text-2xl font-semibold;
+  }
+  p {
+    @apply mb-4;
+  }
+  pre {
+    @apply mb-4 bg-[#151b23] px-3 py-4 rounded-box;
+    line-height: 1.45;
+  }
+  pre code {
+    @apply mb-0 bg-transparent p-0 rounded-lg;
+  }
+  code {
+    @apply mb-4 bg-[#656c7633] p-2 rounded-lg;
+  }
+  ol {
+    @apply list-decimal ml-12 mb-4;
+  }
+  ul {
+    @apply list-disc ml-8 mb-4;
+  }
+</style>
