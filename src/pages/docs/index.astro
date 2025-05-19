@@ -1,15 +1,15 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Card from "../../components/Card.astro";
-import { YouTube } from "astro-embed";
 import FullTreeApproach from "../../content/docs/FullTreeApproach.jpg";
 import SubtaskTreeApproach from "../../content/docs/SubtaskTreeApproach.jpg";
 import CollectDiamondsTreeExample from "../../content/docs/CollectDiamondsTreeExample.jpg";
 import BotSystemExample from "../../content/docs/BotSystemExample.jpg";
+import { Image } from 'astro:assets';
+import { Code } from "astro:components";
 ---
 
 <Layout title="AltoClef Documentation">
-  <main class="text-black/80 dark:text-white">
+  <main class="container text-black/80 dark:text-[--bc]">
     <h1><span class="text-gradient">AltoClef</span> Documentation</h1>
     <h2>Big Picture</h2>
     <p>
@@ -143,11 +143,12 @@ import BotSystemExample from "../../content/docs/BotSystemExample.jpg";
           rel="nofollow">this explanation, starting at 6:27</a
         >.</em>
     </p>
-    <img
-      src={FullTreeApproach.src}
+    <Image
+      src={FullTreeApproach}
       height={FullTreeApproach.height}
       width={FullTreeApproach.width}
       alt=""
+      class="rounded-box my-4"
     />
     <p>
       Each item icon is a resource, and the "tree branches" extending downward
@@ -165,11 +166,12 @@ import BotSystemExample from "../../content/docs/BotSystemExample.jpg";
       sticks, and the crafting table which repeat multiple times. If you’re a
       programmer, you probably know where this is going.
     </p>
-    <img
-      src={SubtaskTreeApproach.src}
+    <Image
+      src={SubtaskTreeApproach}
       height={SubtaskTreeApproach.height}
       width={SubtaskTreeApproach.width}
       alt=""
+      class="rounded-box my-4"
     />
     <p>
       (Some diagram explanations: On the left side of the cobblestone is a
@@ -187,11 +189,12 @@ import BotSystemExample from "../../content/docs/BotSystemExample.jpg";
       Thanks to this efficiency, we can extend this task to collect diamonds.
       Here’s what a diamond collection tree looks like:
     </p>
-    <img
-      src={CollectDiamondsTreeExample.src}
+    <Image
+      src={CollectDiamondsTreeExample}
       height={CollectDiamondsTreeExample.height}
       width={CollectDiamondsTreeExample.width}
       alt=""
+      class="rounded-box my-4"
     />
     <p>
       (Here we also have a small furnace icon near the iron ingot resource,
@@ -218,11 +221,12 @@ import BotSystemExample from "../../content/docs/BotSystemExample.jpg";
       close or the bot gets hungry, the "Mob Defense Chain" and "Food Chain"
       increase in priority, and thus kick in.
     </p>
-    <img
-      src={BotSystemExample.src}
+    <Image
+      src={BotSystemExample}
       height={BotSystemExample.height}
       width={BotSystemExample.width}
       alt=""
+      class="rounded-box my-4"
     />
     <p>
       With this system the bot can juggle survival and getting stuff done. Not
@@ -276,21 +280,28 @@ else:
     <p>Overall, most issues boil down to one of two things:</p>
     <ol>
       <li>
-        Baritone breaks/places a block somewhere where it shouldn't. Use <code
+        Baritone breaks/places a block somewhere where it shouldn't. Use 
+        <!-- <code
           >AltoClef.getBehaviour().avoidBlockBreaking(blockPos -&gt; protect?)</code
-        >
+        > -->
+        <Code code={`AltoClef.getBehaviour().avoidBlockBreaking(blockPos -> protect?)`} lang="java" />
       </li>
       <li>
         Whenever the bot is told to ALWAYS go to the closest target, it's very
         likely the bot may get stuck alternating between two target. In that
-        case, either commit to a target whenever you find one, or use <code
+        case, either commit to a target whenever you find one, or use <!-- <code
           >DoToClosestBlockTask</code
-        >/<code>DoToClosestEntityTask</code>
+        >/<code>DoToClosestEntityTask</code> -->
+        <Code code={`DoToClosestBlockTask`} lang="java" inline />/
+        
+        <Code code={`DoToClosestEntityTask`} lang="java" inline />
       </li>
       <li>
         The block you're traveling to may be unreachable (surrounded in bedrock,
         floating in the air and you don't have build materials). In that case
-        use <code>AltoClef.getBlockTracker().unreachable(blockpos)</code>
+        use <!-- <code>AltoClef.getBlockTracker().unreachable(blockpos)</code> -->
+        
+        <Code code={`AltoClef.getBlockTracker().unreachable(blockpos)`} lang="java" />
       </li>
     </ol>
     <p>
@@ -310,12 +321,23 @@ else:
   <nav class="fixed top-8 right-8 flex flex-col gap-2">
     <a href="/AltoClef-site/docs" class="link text-primary pointer-events-none cursor-not-allowed">Home</a>
     <a href="/AltoClef-site/docs/APIThingsToKnow" class="link hover:text-primary">API Things To Know</a>
+    <a href="/AltoClef-site" class="link hover:text-primary">Back</a>
   </nav>
 </Layout>
 
 <style>
+  @media (prefers-color-scheme: dark) {
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+      background-color: var(--shiki-dark-bg) !important;
+      /* Optional, if you also want font styles */
+      font-style: var(--shiki-dark-font-style) !important;
+      font-weight: var(--shiki-dark-font-weight) !important;
+      text-decoration: var(--shiki-dark-text-decoration) !important;
+    }
+	}
   main {
-    margin: auto;
     padding: 1rem;
     width: 800px;
     max-width: calc(100% - 2rem);
@@ -335,14 +357,14 @@ else:
     @apply mb-4;
   }
   pre {
-    @apply mb-4 bg-[#151b23] px-3 py-4 rounded-box;
+    @apply mb-4 bg-[#d1d1d1] dark:bg-[#151b23] px-3 py-4 rounded-box;
     line-height: 1.45;
   }
   pre code {
     @apply mb-0 bg-transparent p-0 rounded-lg;
   }
   code {
-    @apply mb-4 bg-[#656c7633] p-2 rounded-lg;
+    @apply mb-4 bg-[#bdbfc233] dark:bg-[#656c7633] p-2 rounded-lg;
   }
   ol {
     @apply list-decimal ml-12 mb-4;

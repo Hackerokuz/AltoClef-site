@@ -1,0 +1,94 @@
+---
+import { DownloadIcon } from "@lucide/astro";
+
+
+
+
+---
+
+
+
+<div class="downloadButton my-4 mx-auto">
+    <a class="mx-auto flex items-center flex-col" href="https://squ1d.dev/altoclef-versions" target="_blank">
+        <div class="flex">Download <DownloadIcon class="inline ml-2" /></div>
+        <div class="dark:text-neutral-content text-neutral-600 text-center">If it says (<b>Requires baritone</b>) you will need to stick the custom baritone with it in your mods folder if it's not provided to you</div>
+    </a>
+</div>
+
+<style>
+	.downloadButton {
+		list-style: none;
+		display: flex;
+		background-color: #23262d;
+		background-image: none;
+		background-size: 400%;
+		border-radius: 7px;
+        padding: 1px;
+		background-position: 100%;
+		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	}
+	.downloadButton > a {
+		@apply bg-base-100;
+		width: 100%;
+		text-decoration: none;
+		line-height: 1.4;
+		padding: calc(1.5rem - 1px);
+		border-radius: 8px;
+		opacity: 0.8;
+	}
+	.downloadButton > a svg {
+		font-size: 1.25rem;
+		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	p {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+	}
+	.downloadButton:is(:hover, :focus-within) {
+		background-position: 0;
+		background-image: var(--accent-gradient);
+	}
+	.downloadButton:is(:hover, :focus-within) h2 {
+		color: rgb(var(--accent-dark));
+	}
+	
+	.downloadButton.disabled {
+		@apply select-none cursor-not-allowed;
+	}
+	.downloadButton.disabled > a {
+		@apply select-none cursor-not-allowed pointer-events-none opacity-55;
+	}
+	.downloadButton.disabled:is(:hover, :focus-within) {
+		position: relative;
+		list-style: none;
+		display: flex;
+		padding: 1px;
+		background-color: #23262d;
+		background-image: none;
+		background-size: 400%;
+		border-radius: 7px;
+		background-position: 100%;
+		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	}
+	.downloadButton.disabled:is(:hover, :focus-within) a svg {
+		color: #2c2e33;
+	}
+	@media (prefers-color-scheme: dark) {
+		.downloadButton {
+			background-color: #23262d;
+		}
+		.downloadButton > a {
+			color: white;
+			background-color: #23262d;
+		}
+		.downloadButton:is(:hover, :focus-within) a svg {
+			color: rgb(var(--accent-light));
+		}
+		.downloadButton.disabled:is(:hover, :focus-within) a svg {
+			color: #414653;
+		}
+	}
+	
+</style>

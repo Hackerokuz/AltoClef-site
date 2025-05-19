@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import { YouTube } from 'astro-embed';
+import DownloadButton from '../components/DownloadButton.astro';
 ---
 
 <Layout title="Welcome to AltoClef.">
@@ -15,7 +16,8 @@ import { YouTube } from 'astro-embed';
 			A client side bot that allows you to do some actions automatically, a few exemples are beating the game, getting materials, and killing people automatically...<br/>
 		</p>
 		<p>Video introduction</p>
-		<YouTube id="q5OmcinQ2ck" class:list={"rounded-2xl my-8"} />
+		<YouTube id="q5OmcinQ2ck" class:list={"rounded-2xl my-8 max-w-none"} />
+		<DownloadButton />
 		<ul role="list" class="link-card-grid">
 			<Card
 				href="/AltoClef-site/FAQ"

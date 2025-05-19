@@ -21,14 +21,22 @@ const { frontmatter: {title} } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body class="m-auto container px-4">
+
+		<h1>Don't know Java?</h1>
+		<p class="w-full " style="text-align: center;">You can find many videos on learning Java on YouTube</p>
+		<p class="w-full " style="text-align: center;">Another good option, if you would rather read, is <a href="https://www.w3schools.com/java/" class="link">W3School</a></p>
+		<p class="w-full " style="text-align: center;">Here is a good YouTube video</p>
+		<YouTube id="xTtL8E4LzTQ" class:list={"rounded-2xl my-8 m-auto"} />
+
+
+
 		<h1>Development Guide</h1>
 		<p class="w-full " style="text-align: center;">You can find video introduction on how to setup your environment on YouTube</p>
 		<YouTube id="iB8NEnG7SUw" class:list={"rounded-2xl my-8 m-auto"} />
         <article class="article m-auto container">
-		    <slot />
+			<slot />
         </article>
 		<h2>Task Programming Tutorial Stream</h2>
-
 		<YouTube id="uROEqwyzn3o" class:list={"rounded-2xl my-8 m-auto"} />
 
 		<h2>Old (Post Stream) Tutorial VOD</h2>

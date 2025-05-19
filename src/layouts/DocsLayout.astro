@@ -27,6 +27,7 @@ const { frontmatter: {title} } = Astro.props;
 			<nav class="flex flex-col gap-2 col-span-2 sticky top-0 ml-4">
 				<a href="/AltoClef-site/docs" class="link hover:text-primary">Home</a>
 				<a href="/AltoClef-site/docs/APIThingsToKnow" class="link text-primary pointer-events-none cursor-not-allowed">API Things To Know</a>
+				<a href="/AltoClef-site" class="link hover:text-primary">Back</a>
 			</nav>
 		</div>
 	</body>
@@ -55,6 +56,15 @@ const { frontmatter: {title} } = Astro.props;
 				white 60%
 			);
 		}
+	.astro-code,
+	.astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		/* Optional, if you also want font styles */
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
 	}
 	html {
 		font-family: system-ui, sans-serif;

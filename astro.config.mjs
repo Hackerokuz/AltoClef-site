@@ -13,6 +13,14 @@ export default defineConfig({
       mdx(),
     ],
     output: "static",
+    markdown: {
+      shikiConfig: {
+        themes: {
+          light: 'github-light',
+          dark: 'github-dark',
+        },
+      },
+    },
     // adapter: node({
     //   mode: "standalone",
     // }),
